@@ -205,6 +205,8 @@ int main() {
 								getch();
 							}
 							score = 0;
+							mvwprintw(scorewin, 4,6, "SCORE: %d    ", score);
+							wrefresh(scorewin);
 							wclear(playwin);
 							wrefresh(playwin);
 
