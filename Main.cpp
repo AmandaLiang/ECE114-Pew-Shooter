@@ -11,7 +11,7 @@
  *
  *      Compilation instructions:
  *      Mac terminal command
- *      gcc -lncurses -lstdc++ Main.cpp Player.cpp
+ *      gcc -lncurses -lstdc++ Main.cpp Player.cpp Projectile.cpp Enemies.cpp
  *
  *      Optimal size for play is terminal size 100x40.
  */
@@ -23,6 +23,7 @@
 #include <string>
 #include "Player.h"
 #include "Projectile.h"
+#include <vector>
 
 int main() {
 
@@ -36,9 +37,12 @@ int main() {
 	printw("PRESS ANY KEY..."); // Print string.
 	getch();  // Wait until the user press a key
   	printw("\nFor ECE 114.");
-  	halfdelay(5);
+  	halfdelay(10);
   	refresh(); //refreshes window by pulling from previously alloted memory.
  	getch();
+
+ 	clear();
+ 	refresh();
 
  	//Dimensions
  	int screenY, screenX;
@@ -52,6 +56,10 @@ int main() {
  	refresh();
  	getch();
 
+	//Initialize score variables.
+	int score = 0;
+	int highscore = 0;
+
  	//PRESENTS START MENU
  	mvprintw(screenY - 8, screenX - 29, "PRESS ENTER TO SELECT");
 	WINDOW * menuwin = newwin(5, screenX - 12 , screenY - 7, 5 ); //creates new window
@@ -60,7 +68,6 @@ int main() {
 	wrefresh(menuwin); //refresh window.
 	keypad(menuwin, true); //activates keypad for new window.
 
-	nocbreak();
 	cbreak();
 
 	//MENU CONTENTS
@@ -75,9 +82,9 @@ int main() {
 
 
 		while (1){
-
-
 			while (1){
+			 	mvprintw(screenY - 8, screenX - 29, "PRESS ENTER TO SELECT"); // Reprint the menu
+			 	refresh();
 				box(menuwin, 0 , 0); //puts default boarders around window.
 			for (int i = 0; i < 3; i++){
 				if (i == highlight){
@@ -109,25 +116,32 @@ int main() {
 				break;
 			}
 			if(highlight == 0) { //User selects play.
-						clear();
-						halfdelay(5);
-						getch(); //wait 0.5 seconds or for input.
+
+						//Kill the manu window and the PRESS ENTER TO SELECT.
+						wclear(menuwin);
+						wrefresh(menuwin);
+						mvprintw(screenY - 8, screenX - 29, "                     ");
+						refresh();
+
+						//wait
+						halfdelay(3);
+						getch();
+
+						//Create Score Window, border and display.
+						WINDOW * scorewin = newwin(16,20,screenY/2-8,3);
+						box(scorewin, 0,0);
+						mvwprintw(scorewin, 4,6, "SCORE: %d", score);
+						mvwprintw(scorewin, 6, 2, "HIGHSCORE: %d", highscore);
+						wrefresh(scorewin);
 
 						//Create Play Window, border and Display
 						WINDOW * playwin = newwin(screenY,50,0, screenX/2-25);
 						box(playwin, 0,0);
 						wrefresh(playwin); //refresh window
 
-						//Create Score, Score Window, border and Display.
-						int score = 0;
-						//int highscore = 0; // future feature
-						WINDOW * scorewin = newwin(16,20,screenY/2-8,3);
-						box(scorewin, 0,0);
-						mvwprintw(scorewin, 2,4, "SCORE: %d", score);
-						wrefresh(scorewin);
 
-						getch(); //wait 0.5 seconds or for input.
-						getch(); //0.5 more seconds or input
+						getch(); //wait 0.3 seconds or for input.
+						getch(); //0.3 more seconds or input
 
 						//Instruction window pop up.
 						WINDOW * instructwin = newwin(20, 40, (screenY/2)-10 ,screenX/2-20 );
@@ -135,13 +149,15 @@ int main() {
 						mvwprintw(instructwin, 9, 8, "PRESS ANY KEY TO EXIT...");
 						mvwprintw(instructwin, 2, 14, "INSTRUCTIONS");
 						mvwprintw(instructwin, 4, 9, "USE ARROW KEYS TO MOVE.");
-						mvwprintw(instructwin, 5, 10, "TYPE 'PEW' TO SHOOT.");
+						mvwprintw(instructwin, 5, 10, "USE SPACEBAR TO SHOOT.");
 						mvwprintw(instructwin, 6, 11, "USE ESCAPE TO EXIT.");
 						refresh();
 						wrefresh(instructwin);
 
 						cbreak();
 						getch(); //Wait anykey to continue.
+
+						halfdelay(1);
 
 						//kill instruction window
 						wclear(instructwin);
@@ -152,23 +168,46 @@ int main() {
 						refresh(); //refresh standard screen.
 
 						int loss = 0; // initialize loss condition variable.
-						Player * player = new Player(playwin, screenY-2 ,25, 'x');
+						Player * player = new Player(playwin, screenY-3 ,25, 'x'); // Create Player Object.
+
+				//MAIN GAME LOOP
 						do {
 							player->display();
-							mvwprintw(playwin, 0, 1, "location 1");
 							wrefresh(playwin);
-						} while (player->getmv()!=27); //while player doesn't press escape.
-
-
-
-						//EndGame Things!
-						if (loss == 1){
-							mvwprintw(playwin, screenY/2 - 1, 20, "GAME OVER");
+							score += 1;
+							mvwprintw(scorewin, 4,6, "SCORE: %d", score);
+							wrefresh(scorewin);
+						//	Enemy * enemy = new Enemy(playwin, score, loss);
+						//	enemy->display();
 							wrefresh(playwin);
-							break;
-						}
+						} while (player->getmv()!=27 && loss == 0); //while player doesn't press escape key and hasn't lost.
 
-						getch();
+				//ENDGAME
+							mvwprintw(playwin, screenY/2 - 3, 21, "GAME OVER");
+							wrefresh(playwin);
+							halfdelay(5);
+							wgetch(playwin);
+							if(score > highscore){
+								highscore = score;
+								mvwprintw(playwin, screenY/2 - 1, 8, "CONGRATULATIONS! NEW HIGH SCORE: %d", highscore);
+								mvwprintw(scorewin, 6, 2, "HIGHSCORE: %d", highscore);
+								wrefresh(playwin);
+								wrefresh(scorewin);
+								getch();
+								mvwprintw(playwin, screenY/2 + 1, 15, "PRESS ANY KEY TO EXIT");
+								wrefresh(playwin);
+								cbreak();
+								getch();
+							} else {
+								mvwprintw(playwin, screenY/2 - 1, 15, "PRESS ANY KEY TO EXIT");
+								wrefresh(playwin);
+								cbreak();
+								getch();
+							}
+							score = 0;
+							wclear(playwin);
+							wrefresh(playwin);
+
 			}
 
 			if (highlight==1){ //User selects about.

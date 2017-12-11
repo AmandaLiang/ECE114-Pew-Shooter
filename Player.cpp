@@ -4,6 +4,7 @@
  *  Created from ncurses tutorial 8 - Basic top down player movement
  *  from Casual Coder on YouTube.
  *  Added one function.
+ *  Added score update to display.
  */
 
 #include "Player.h"
@@ -23,7 +24,6 @@ Player::Player(WINDOW * win, int y, int x, char c){
 //fires projectile
 void Player::pew(){
 	// creates a projectile object from current location
-	mvwprintw(curwin, 3, xLoc, "location 3");
 	Projectile * pew = new Projectile(curwin, yLoc, xLoc, '|', this);
 }
 
@@ -31,28 +31,28 @@ void Player::pew(){
 void Player::mvup(){
 	mvwaddch(curwin, yLoc, xLoc, ' ');
 	yLoc--;
-	if(yLoc < 1)
-		yLoc =1;
+	if(yLoc < 2)
+		yLoc = 2;
 }
 void Player::mvdown(){
 	mvwaddch(curwin, yLoc, xLoc, ' ');
 	yLoc++;
-		if(yLoc > yMax-2)
-			yLoc = yMax-2;
+		if(yLoc > yMax-3)
+			yLoc = yMax-3;
 }
 void Player::mvleft(){
 	mvwaddch(curwin, yLoc, xLoc, ' ');
 	xLoc--;
 	xLoc--;
-	if(xLoc < 1)
-		xLoc =1;
+	if(xLoc < 2)
+		xLoc =2;
 }
 void Player::mvright(){
 	mvwaddch(curwin, yLoc, xLoc, ' ');
 	xLoc++;
 	xLoc++;
-		if(xLoc > xMax-2)
-			xLoc = xMax-2;
+		if(xLoc > xMax-3)
+			xLoc = xMax-3;
 }
 
 int Player::getmv(){
@@ -81,6 +81,6 @@ int Player::getmv(){
 
 void Player::display(){
 	mvwaddch(curwin, yLoc, xLoc, character);
-	mvwprintw(curwin, 3, xLoc, "location 2");
+	wrefresh(curwin);
 }
 

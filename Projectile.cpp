@@ -20,12 +20,15 @@ Projectile::Projectile(WINDOW * win, int y, int x, char c, Player* player) {
 		xLoc = x;
 		getmaxyx(curwin, yMax, xMax);
 		character = c;
-		mvwprintw(win, yLoc + 2, xLoc, "pew");
+		mvwprintw(win, yLoc + 2, xLoc -1, "pew");
+		wrefresh(win);
+		usleep(8000);
+		mvwprintw(win, yLoc + 2, xLoc - 1, "   ");
 		Projectile::display();
 
 }
 void Projectile::mvup(){
-	//	mvwaddch(curwin, yLoc, xLoc, ' ');
+		mvwaddch(curwin, yLoc, xLoc, ' ');
 		yLoc--;
 		if(yLoc < 1)
 			Projectile::~Projectile();
@@ -33,7 +36,6 @@ void Projectile::mvup(){
 			usleep(50000);
 			wrefresh(curwin);
 			display();
-
 		}
 	}
 
@@ -47,8 +49,6 @@ void Projectile::display(){
 	wrefresh(curwin);
 if(x < 1000){
 	x++;
-	mvwprintw(curwin, 5, xLoc, "location 5");
-	mvwprintw(curwin, yLoc -2, xLoc + 3, "PACHOW");
 	p->Player::display();
 }
 		mvup();
