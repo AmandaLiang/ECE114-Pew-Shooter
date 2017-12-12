@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <iostream>
+#include <time.h>
 #include <ncurses.h>
 #include <string>
 #include "Player.h"
@@ -26,6 +27,9 @@
 #include "Enemy.h"
 
 int main() {
+
+	//Seed Random for enemy spawner.
+	srand((unsigned)time(NULL));
 
  	initscr(); //initializes and allocates memory for a 24x80 screen.
  	curs_set(0); // Set cursor to invisible
@@ -177,8 +181,8 @@ int main() {
 							score += 1;
 							mvwprintw(scorewin, 4,6, "SCORE: %d", score);
 							wrefresh(scorewin);
-							Enemy * enemy = new Enemy(playwin, score, loss);
-						//	enemy->display();
+							Enemy * enemy = new Enemy(playwin,(rand()%10),(rand()%25)*2 - 1, score, loss);
+							enemy->display();
 							wrefresh(playwin);
 						} while (player->getmv()!=27 && loss == 0); //while player doesn't press escape key and hasn't lost.
 
