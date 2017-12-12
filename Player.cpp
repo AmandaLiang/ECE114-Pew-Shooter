@@ -3,8 +3,9 @@
  *
  *  Created from ncurses tutorial 8 - Basic top down player movement
  *  from Casual Coder on YouTube.
- *  Added one function.
+ *  Added one function. (pew)
  *  Added score update to display.
+ *  Added get functions for locations.
  */
 
 #include "Player.h"
@@ -82,5 +83,13 @@ int Player::getmv(){
 void Player::display(){
 	mvwaddch(curwin, yLoc, xLoc, character);
 	wrefresh(curwin);
+}
+
+int Player::getLocX(){
+	return xLoc;
+}
+
+int Player::getLocY(){
+	return yLoc;
 }
 

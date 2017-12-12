@@ -23,7 +23,7 @@
 #include <string>
 #include "Player.h"
 #include "Projectile.h"
-#include <vector>
+#include "Enemy.h"
 
 int main() {
 
@@ -177,7 +177,7 @@ int main() {
 							score += 1;
 							mvwprintw(scorewin, 4,6, "SCORE: %d", score);
 							wrefresh(scorewin);
-						//	Enemy * enemy = new Enemy(playwin, score, loss);
+							Enemy * enemy = new Enemy(playwin, score, loss);
 						//	enemy->display();
 							wrefresh(playwin);
 						} while (player->getmv()!=27 && loss == 0); //while player doesn't press escape key and hasn't lost.
@@ -209,7 +209,6 @@ int main() {
 							wrefresh(scorewin);
 							wclear(playwin);
 							wrefresh(playwin);
-
 			}
 
 			if (highlight==1){ //User selects about.
@@ -225,7 +224,6 @@ int main() {
 						wclear(aboutwin); //replace all points of the window with a space.
 						mvprintw(screenY - 8, screenX - 29, "PRESS ENTER TO SELECT"); //reprint to compensate for clear
 						wrefresh(aboutwin);
-						wrefresh(stdscr);
 			}
 
 			if (highlight == 2){ //User selects exit to terminal.

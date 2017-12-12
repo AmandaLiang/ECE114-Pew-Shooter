@@ -7,17 +7,18 @@
 
 #ifndef ENEMY_H_
 #define ENEMY_H_
+#include <ncurses.h>
 
 class Enemy {
 public:
-	Enemy(WINDOW * win, int y, int x, char c);
+	Enemy(WINDOW * win, int &score, int &losCond);
 	void Kill();
 	virtual ~Enemy();
 	void mvdown();
 	void display();
 
 private:
-	int xLoc, yLoc, xMax, yMax;
+	int spawnXLoc, spawnYLoc, xMax, yMax;
 	char character;
 	WINDOW * curwin;
 };

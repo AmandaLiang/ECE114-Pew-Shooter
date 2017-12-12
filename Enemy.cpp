@@ -6,10 +6,14 @@
  */
 
 #include "Enemy.h"
+#include <ncurses.h>
 
-Enemy::Enemy() {
-	// TODO Auto-generated constructor stub
-
+Enemy::Enemy(WINDOW * win, int &score, int &losCond) {
+	character = '0';
+	curwin = win;
+	spawnYLoc = 0;
+	spawnXLoc = 0;
+	getmaxyx(curwin, yMax, xMax); //gets dimensions of curwin and assigns to var yMax and var xMax
 }
 
 Enemy::~Enemy() {

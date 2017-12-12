@@ -24,6 +24,8 @@ public:
 	int getmv();
 	void display();
 	void pew(); // Mine
+	int getLocX();
+	int getLocY();
 
 private:
 	int xLoc, yLoc, xMax, yMax;
