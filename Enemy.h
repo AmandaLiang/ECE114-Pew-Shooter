@@ -9,6 +9,7 @@
 #define ENEMY_H_
 #include <ncurses.h>
 #include <time.h>
+#include <unistd.h>
 
 class Enemy {
 public:
@@ -16,6 +17,7 @@ public:
 	void Kill();
 	virtual ~Enemy();
 	void mvdown();
+	void getmv();
 	void display();
 
 private:
