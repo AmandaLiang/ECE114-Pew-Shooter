@@ -172,7 +172,7 @@ int main() {
 						refresh(); //refresh standard screen.
 
 						int loss = 0; // initialize loss condition variable.
-						Player * player = new Player(playwin, screenY-3 ,25, 'x'); // Create Player Object.
+						Player * player = new Player(playwin, screenY-3 ,24, 'x'); // Create Player Object.
 
 				//MAIN GAME LOOP
 						do {
