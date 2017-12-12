@@ -139,7 +139,7 @@ int main() {
 						wrefresh(scorewin);
 
 						//Create Play Window, border and Display
-						WINDOW * playwin = newwin(screenY,50,0, screenX/2-25);
+						WINDOW * playwin = newwin(screenY,51,0, screenX/2-25);
 						box(playwin, 0,0);
 						wrefresh(playwin); //refresh window
 
@@ -181,7 +181,7 @@ int main() {
 							score += 1;
 							mvwprintw(scorewin, 4,6, "SCORE: %d", score);
 							wrefresh(scorewin);
-							Enemy * enemy = new Enemy(playwin,(rand()%10),(rand()%25)*2 - 1, score, loss);
+							Enemy * enemy = new Enemy(playwin,(rand()%10)+2,(rand()%24)*2 + 2, score, loss);
 							enemy->display();
 							wrefresh(playwin);
 						} while (player->getmv()!=27 && loss == 0); //while player doesn't press escape key and hasn't lost.
