@@ -176,15 +176,17 @@ int main() {
 
 				//MAIN GAME LOOP
 						do {
+							int input = getch();
 							player->display();
+							player->getmv(input);
 							wrefresh(playwin);
 							score += 1;
 							mvwprintw(scorewin, 4,6, "SCORE: %d", score);
 							wrefresh(scorewin);
-							Enemy * enemy = new Enemy(playwin,(rand()%10)+2,(rand()%24)*2 + 2, score, loss);
-							enemy->display();
-							wrefresh(playwin);
-						} while (player->getmv()!=27 && loss == 0); //while player doesn't press escape key and hasn't lost.
+						//	Enemy * enemy = new Enemy(playwin,(rand()%10)+2,(rand()%24)*2 + 2, score, loss);
+						//	enemy->display();
+						//	wrefresh(playwin);
+						} while (loss == 0); //while player doesn't press escape key and hasn't lost.
 
 				//ENDGAME
 							mvwprintw(playwin, screenY/2 - 3, 21, "GAME OVER");

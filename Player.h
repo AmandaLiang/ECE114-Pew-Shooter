@@ -21,12 +21,11 @@ public:
 	void mvdown();
 	void mvleft();
 	void mvright();
-	int getmv();
+	int getmv(int move);
 	void display();
 	void pew(); // Mine
 	int getLocX();
 	int getLocY();
-
 private:
 	int xLoc, yLoc, xMax, yMax;
 	char character;

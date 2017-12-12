@@ -22,9 +22,9 @@ Projectile::Projectile(WINDOW * win, int y, int x, char c, Player* player) {
 		character = c;
 		mvwprintw(win, yLoc + 2, xLoc -1, "pew");
 		wrefresh(win);
-		usleep(8000);
+		//usleep(8000);
 		mvwprintw(win, yLoc + 2, xLoc - 1, "   ");
-		Projectile::display();
+		//Projectile::display();
 
 }
 void Projectile::mvup(){

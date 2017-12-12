@@ -56,9 +56,8 @@ void Player::mvright(){
 			xLoc = xMax-3;
 }
 
-int Player::getmv(){
-	int choice = wgetch(curwin);
-	switch(choice){
+int Player::getmv(int input){
+	switch(input){
 	case KEY_UP:
 		mvup();
 		break;
@@ -77,7 +76,7 @@ int Player::getmv(){
 	default:
 			break;
 	}
-	return choice;
+	return input;
 }
 
 void Player::display(){
@@ -91,5 +90,5 @@ int Player::getLocX(){
 
 int Player::getLocY(){
 	return yLoc;
-}
+	}
 

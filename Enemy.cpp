@@ -6,6 +6,7 @@
  */
 
 #include "Enemy.h"
+#include "Player.h"
 #include <ncurses.h>
 #include <time.h>
 
@@ -42,6 +43,5 @@ void Enemy::display(){
 }
 
 Enemy::~Enemy() {
-	// TODO Auto-generated destructor stub
 }
 
